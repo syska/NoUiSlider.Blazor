@@ -30,6 +30,9 @@ private void ToggleDisabled()
         #endregion
 
         #region Options object
+
+        private double ValuePip { get; set; } = 30;
+
         private NoUiSliderOptions Options = new NoUiSliderOptions
         {
             Start = new[] { 10.0 },

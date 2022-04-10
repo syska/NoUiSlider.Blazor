@@ -28,10 +28,12 @@
     Specify <code>FilterMultiple</code>s to place the given pip type at the given multiple (in the example below pip type 0 will be placed at multiples of 10 on the scale).
     You can set <code>AlwaysShowMinMax</code> to true (default is false) to ensure that numbers are shown at the start and end, regardless of other filtering.</p>
 <div class="code"><pre><code>@OptionsExample</code></pre></div>
-<NoUiSlider Options="Options" />
+<NoUiSlider @bind-Value="ValuePip" Options="Options" />
+<p>Value: @ValuePip</p>
 
 <h2>Disabling</h2>
 <p>You can also disable the slider (currently you can only disable the whole slider, not individual handles)</p>
 <div class="code"><pre><code>@DisableExample</code></pre></div>
 <NoUiSlider @bind-Value="ValueDisabled" Min="0" Max="100" Tooltips="true" IsDisabled="IsDisabled" />
+<p>Value: @ValueDisabled</p>
 <button @onclick="ToggleDisabled">@(IsDisabled ? "Enable" : "Disable")</button>
