@@ -1,4 +1,4 @@
-function initialiseSlider(id, options) {
+function initialiseSlider(id, options, helper) {
 
     var slider = document.getElementById(id);
 
@@ -39,6 +39,15 @@ function initialiseSlider(id, options) {
     noUiSlider.create(slider, sliderOptions);
 
     slider.noUiSlider.on('set', onSet);
+
+    function onSet(values, handle, unencoded, tap, positions, noUiSlider) {
+        if (unencoded.length > 1) {
+            helper.invokeMethodAsync('UpdateValues', unencoded);
+        }
+        else {
+            helper.invokeMethodAsync('UpdateValue', unencoded[0]);
+        }
+    }
 }
 
 function toggleEnableSlider(id, disable) {
@@ -54,11 +63,3 @@ function filterPips(value) {
     return value % 100 ? 0 : 1;
 }
 
-function onSet(values, handle, unencoded, tap, positions, noUiSlider) {
-    if (unencoded.length > 1) {
-        DotNet.invokeMethodAsync('NoUiSlider.Blazor', 'UpdateMultipleValues', unencoded);
-    }
-    else {
-        DotNet.invokeMethodAsync('NoUiSlider.Blazor', 'UpdateSingleValue', unencoded[0]);
-    }
-}

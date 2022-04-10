@@ -88,9 +88,6 @@ namespace PElshen.NoUiSlider.Blazor
         [Parameter]
         public EventCallback<double[]> ValuesChanged { get; set; }
 
-        private static Func<double, Task> updateSingleValueFunction;
-        private static Func<double[], Task> updateMultipleValuesFunction;
-
         private Guid uniqueId;
         private bool HasRendered;
 
@@ -103,8 +100,6 @@ namespace PElshen.NoUiSlider.Blazor
 
         protected override void OnInitialized()
         {
-            updateSingleValueFunction = UpdateValue;
-            updateMultipleValuesFunction = UpdateValues;
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -128,6 +123,8 @@ namespace PElshen.NoUiSlider.Blazor
 
         private async Task InitialiseSlider()
         {
+            var reference = DotNetObjectReference.Create(this);
+
             if (Options != null)
             {
                 if (Values != null && Values.Any())
@@ -139,7 +136,7 @@ namespace PElshen.NoUiSlider.Blazor
                     Options.Start = new[] { Value.Value };
                 }
 
-                await JSRuntime.InvokeVoidAsync("initialiseSlider", Id, Options);
+                await JSRuntime.InvokeVoidAsync("initialiseSlider", Id, Options, reference);
             }
             else
             {
@@ -168,17 +165,19 @@ namespace PElshen.NoUiSlider.Blazor
                         Thousands = ThousandsSeparator ?? ",",
                     }
                 };
-                await JSRuntime.InvokeVoidAsync("initialiseSlider", Id, options);
+                await JSRuntime.InvokeVoidAsync("initialiseSlider", Id, options, reference);
             }
         }
 
-        private Task UpdateValue(double newValue)
+        [JSInvokable]
+        public Task UpdateValue(double newValue)
         {
             Value = newValue;
             return ValueChanged.InvokeAsync(newValue);
         }
 
-        private Task UpdateValues(double[] newValues)
+        [JSInvokable]
+        public Task UpdateValues(double[] newValues)
         {
             Values = newValues;
             return ValuesChanged.InvokeAsync(newValues);
@@ -190,18 +189,6 @@ namespace PElshen.NoUiSlider.Blazor
             {
                 await JSRuntime.InvokeVoidAsync("toggleEnableSlider", Id, disable);
             }
-        }
-
-        [JSInvokable]
-        public static Task UpdateSingleValue(double update)
-        {
-            return updateSingleValueFunction.Invoke(update);
-        }
-
-        [JSInvokable]
-        public static Task UpdateMultipleValues(double[] update)
-        {
-            return updateMultipleValuesFunction.Invoke(update);
         }
     }
 }
