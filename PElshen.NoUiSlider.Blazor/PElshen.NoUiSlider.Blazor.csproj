@@ -24,7 +24,6 @@
     <Content Remove="package.json" />
     <Content Remove="wwwroot\css\lib\nouislider.min.css" />
     <Content Remove="wwwroot\css\styles.css" />
-    <Content Remove="wwwroot\dist\test.bundle.js" />
     <Content Remove="wwwroot\js\interop.js" />
     <Content Remove="wwwroot\js\lib\nouislider.js" />
     <Content Remove="wwwroot\js\lib\wNumb.js" />
@@ -35,7 +34,6 @@
     <None Include="package.json" />
     <None Include="wwwroot\css\lib\nouislider.min.css" />
     <None Include="wwwroot\css\styles.css" />
-    <None Include="wwwroot\dist\test.bundle.js" />
     <None Include="wwwroot\js\interop.js" />
     <None Include="wwwroot\js\lib\nouislider.js" />
     <None Include="wwwroot\js\lib\wNumb.js" />
